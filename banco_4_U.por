@@ -4,7 +4,7 @@ programa {
 
 	
 		caracter numero
-		inteiro contadorTalao=0
+		inteiro contadorTalao=0, x
 		cadeia cpf
 		real limite = 1000.0
 		real emprestimoEmpresa
@@ -24,7 +24,7 @@ programa {
 	faca 
 	{
 		limpa ()
-		escreva ("[BANCO 4U]\n")
+		escreva ("[BANCO 4U - G4]\n")
 		escreva  ("[O SEU LUGAR É AQUI]\n\n\n")
 		escreva ("1 - CONTA POUPANÇA \n2 - CONTA CORRENTE \n3 - CONTA ESPECIAL \n4 - CONTA EMPRESA \n5 - CONTA ESTUDANTIL \n6 - SAIR \n\n")
 
@@ -32,17 +32,93 @@ programa {
 		leia (opcao)
 
 		se(opcao == '1') {  //conta poupança (vinny)
+			inteiro diaAtual, diaAniversario
+			escreva("Digite o dia de seu aniversário: ")
+        		leia(diaAniversario)
 			caracter movimento
-			inteiro  diaAniversario
 			tipo = "POUPANÇA"
 			cabecalho(tipo)
-			escreva("Saldo Atual: R$ ",saldo,"\n")
+			inteiro aux = 0
+   			escreva ("1 - Ativo ou 2 - Inativo: ")
+			leia(aux)
+		
 
+			se(aux == 2) {
+			pare
+			}
+			escreva("Saldo Atual: R$ ",saldo,"\n")
+			
 			escreva("Deseja fazer alguma movimentação, S/N: ")
 			leia(movimento)
+			
 
-			se (movimento == 'S') {
-				movimentacaoPoupanca ()
+
+			se (movimento == 'S' ou movimento == 's') {
+				
+        		para (x=1; x<=10; x++) {
+        		
+        		escreva("Movimentação: " + x + "\n")
+        		escreva("Saldo Atual: R$ ",saldo,"\n")
+
+        		escreva("MOVIMENTO - D-debito ou C-Crédito: ")
+        		leia(movimento)
+        		se (movimento == 'D' ou  movimento == 'd') {
+        			escreva("Valor movimento: R$ ")
+        			leia(valorMovimento)
+
+        			se( saldo <= 0 ou saldo < valorMovimento) {
+        				escreva("Operação não poderá ser válida, pois o saldo ficará negativo!\n")
+
+        			} senao se (saldo >=0) {
+        			saldoFinal = saldo-valorMovimento
+        			saldo = saldoFinal
+       			escreva("Movimentação realizada com sucesso! Seu saldo agora é de: R$ ",saldoFinal,"\n\n")
+        			}
+        			
+        		} senao se (movimento == 'C' ou movimento == 'c') {
+        			escreva("Valor movimento: R$ ")
+        			leia(valorMovimento)
+        			saldoFinal = saldo + valorMovimento
+        			saldo=saldoFinal
+        			escreva("Movimentação realizada com sucesso! Seu saldo agora é de: R$ ",saldoFinal,"\n\n")
+
+        		} senao {
+        			escreva("Não foi possível identificar sua afirmação. Tente novamente \n ")
+        		}
+        		
+        		escreva("Obrigado por utilizar nossos serviços!\n")
+			
+        		escreva("Continuar fazendo movimentações S/N: ")
+        		leia(continuar)
+
+        		se (continuar =='S') {
+        			
+        			escreva("Ok, vamos tentar novamente! \n")
+        		} senao se (continuar =='N' ou x == 10) {
+        			escreva("Digite o dia de hoje: ")
+        			leia(diaAtual)
+        			     se (diaAtual == diaAniversario) {
+        				escreva("Parabéns! Você ganhou 5% com base no seu saldo!")
+        				saldoFinal = (saldo * 0.05) + saldo
+        				escreva("Seu saldo agora e de: R$ ",saldoFinal,"\n\n")
+        				saldo = saldoFinal
+        				escreva("Movimentação realizada com sucesso!\n")
+        			} senao se (diaAtual != diaAniversario) {
+        				escreva("Seu saldo agora é de: R$ ",saldoFinal,"\n\n")
+        				escreva("Movimentação realizada com sucesso!\n")
+
+        			}
+        			escreva("Obrigade por utilizar nossos serviços! Volte sempre! \n")
+        			pare
+        		}
+  
+        		senao {
+        			escreva("Não foi possível identificar sua afirmação \n")
+        		} 
+        	}
+        		se (x == 11) {
+        			escreva("Você excedeu o limite de tentativas!\n") 
+        		}
 				
 			} senao se (movimento == 'N') {
 				escreva("Obrigade por utilizar nossos serviços!\n")
@@ -56,6 +132,13 @@ programa {
 
 			tipo = "CORRENTE"
 			cabecalho (tipo)
+			inteiro aux = 0
+   		escreva ("1 - Ativo ou 2 - Inativo: ")
+		leia(aux)
+
+		se(aux == 2) {
+			pare
+			}
 			escreva("Saldo Atual: R$ ",saldo,"\n")
 
 			escreva("Deseja fazer alguma movimentação, S/N: ")
@@ -80,47 +163,58 @@ programa {
 
 
 		senao se (opcao == '3') { // livia
+				real limiteEmprestimo = 1000
 				para (inteiro x=1; x<=10; x++) {
+				
+				real pedidoCredito = 0
+				
+				real opcaoEmprestimo 
 				escreva("Movimentação: " + x + "\n")
 				escreva ("Saldo Atual: R$ ",saldo, "\n")
-				escreva ("Seu limite é de: R$ ",limite, "\n")
+				escreva ("Seu limite é de: R$ ",limiteEmprestimo, "\n")
 				escreva ("MOVIMENTO - D-débito ou C_Crédito: ")
-				leia (movimento)
-	
+				leia(movimento)
+				real debito = 0
+				
 				se (movimento == 'D') {
 					
-					escreva ("Valor movimento R$ ")
-					leia (valorMovimento)
-					saldo = saldo - valorMovimento 
-					se (saldo <= 0.00) {
-						se ((limite*-1) <= saldo) {
-							 limite = limite + saldo
-							 saldo = 0.00
-						}
-						senao {
-							escreva ("Limite insuficiente")
-							saldo = valorMovimento - saldo
-						}
-						 
-					}
+					escreva("Valor movimento: R$ ")
+   	 				leia(valorMovimento)
+   	 				se(saldo < valorMovimento) {
+   	 					escreva("Impossível realizar esse débito, deseja realizar um empréstimo? (1 - S| 2 - N)  [LIMITE R$", limiteEmprestimo, "]\n")
+   	 					leia(opcaoEmprestimo)
 
-				} 
+						
+   	 					se(opcaoEmprestimo == 1) {
+
+   	 						
+							escreva("Qual o valor do empréstimo? [LIMITE R$", limiteEmprestimo, "]\n", "R$")
+							leia(opcaoEmprestimo)
+							se(opcaoEmprestimo > limiteEmprestimo) {
+								escreva("Seu limite não permite isso!\n")
+								}
+							senao se(opcaoEmprestimo <= limiteEmprestimo) {
+								limiteEmprestimo = limiteEmprestimo - opcaoEmprestimo
+								saldo = saldo + opcaoEmprestimo
+								}
+							}
+							
+
+   	 					}
+   	 				senao se(saldo >= valorMovimento) {
+   	 					saldoFinal = saldo - valorMovimento
+   						saldo=saldoFinal
+   	 					}
+
+					}
+ 
 
 				senao se (movimento == 'C') {
 					
-					escreva ("Valor movimento R$ ")
-					leia (valorMovimento)
-					se (limite < 1000){
-						limite = limite + valorMovimento
-						se (limite > 1000) {
-							saldo = saldo + limite - 1000
-							limite = 1000
-							 
-						}
-					}
-					senao {
-						saldo = saldo + valorMovimento
-					}
+					escreva("Valor movimento: R$ ")
+   		 			leia(valorMovimento)
+   	 				saldoFinal = saldo + valorMovimento
+   		 			saldo=saldoFinal
 				} 
 
 				senao {
@@ -142,7 +236,7 @@ programa {
 
 				senao se (continuar == 'S') {
 		
-					escreva ("Ok, vamos tentar novamente!")
+					escreva ("Ok, aguarde um minuto!")
 
 				} 
 	
@@ -168,10 +262,18 @@ programa {
 		senao se (opcao == '4' ) {
 		tipo = "EMPRESA"
    	 	caracter auxMovimento
-   		caracter auxContinuar
+   		cadeia auxContinuar
    		cabecalho(tipo)
+   		inteiro aux = 0
+   		escreva ("1 - Ativo ou 2 - Inativo: ")
+		leia(aux)
+
+		se(aux == 2) 
+		{
+			pare
+		}
    		inteiro x
-   	 
+   		   	 
    	 	para(x = 1; x <= 10; x++) {
    			 escreva("Movimentação: " + x + "\n")
    	 		escreva("Saldo Atual: R$ " + saldo + "\n")
@@ -195,11 +297,11 @@ programa {
    			 }
    		escreva("Continuar S/N: ")
    	 	leia(auxContinuar)
-   		 se(auxContinuar == 'S')
+   		 se(auxContinuar == "S" ou auxContinuar == "sim" ou auxContinuar == "s")
    		 {
    	 		
    		 }
-   		 senao se(auxContinuar == 'N')
+   		 senao se(auxContinuar == "N" ou auxContinuar == "n" ou auxContinuar == "não")
    		 {
    			 escreva("Obrigade por utilizar nossos serviços!")
    			 Util.aguarde(3000)
@@ -209,7 +311,7 @@ programa {
 
    	 se (x > 10)
    	 {
-   		 escreva("Número de tentativas excedidos!")
+   		 escreva("Número de movimentações excedido!")
    		 Util.aguarde(3000)
    		 limpa()
    	 }
@@ -218,14 +320,21 @@ programa {
 
 		senao se (opcao == '5' ) { //Ju
 
-	    	tipo = "ESTUDANTIL"
+	    		tipo = "ESTUDANTIL"
    	 	caracter auxMovimento
-   		caracter auxContinuar
+   		cadeia auxContinuar
    		cabecalho(tipo)
+   		inteiro aux = 0
+   		escreva ("1 - Ativo ou 2 - Inativo: ")
+		leia(aux)
+
+		se(aux == 2) {
+			pare
+			}
    		inteiro x
-   	 
+   	 	
    	 	para(x = 1; x <= 10; x++) {
-   			 escreva("Movimentação: " + x + "\n")
+   			escreva("Movimentação: " + x + "\n")
    	 		escreva("Saldo Atual: R$ " + saldo + "\n")
    	 		escreva("Movimento: D - Débito ou C - Crédito ou E - Empréstimo Estudantil: ")
    			 leia(auxMovimento)
@@ -247,11 +356,11 @@ programa {
    			 }
    		escreva("Continuar S/N: ")
    	 	leia(auxContinuar)
-   		 se(auxContinuar == 'S')
+   		 se(auxContinuar == "S" ou auxContinuar == "sim" ou auxContinuar == "s" )
    		 {
    	 		
    		 }
-   		 senao se(auxContinuar == 'N')
+   		 senao se(auxContinuar == "N" ou auxContinuar == "n" ou auxContinuar == "não")
    		 {
    			 escreva("Obrigade por utilizar nossos serviços!")
    			 Util.aguarde(3000)
@@ -259,9 +368,9 @@ programa {
    		 }
    	 }
 
-   	 se (x > 1)
+   	 se (x > 10)
    	 {
-   		 escreva("Número de tentativas excedidos!")
+   		 escreva("Número de movimentações excedido!")
    		 Util.aguarde(3000)
    		 limpa()
    	 }
@@ -281,38 +390,33 @@ programa {
 	funcao cabecalho (cadeia tipo) {
 			caracter aux
 			limpa ()
-			escreva ("[BANCO 4U]\n")
-			escreva("O SEU LUGAR É AQUI]\n\n\n")
+			escreva ("[BANCO 4U - G4]\n")
+			escreva("[O SEU LUGAR É AQUI]\n\n\n")
 			escreva ("Digite o número da conta: " )
 			leia (numero)
 			escreva ("Informe seu CPF: ")
 			leia (cpf)
-			escreva ("1 - Ativo ou 2 - Inativo: ")
-			leia (aux)
-
-	se (aux == '1') {
-		status = verdadeiro
-} 
-
-	senao {
-		status = falso
-}
 }
 funcao debitoContaEstudantil() //Ju
   	  {    
    	 
    	 	escreva("Valor movimento: R$ ")
    	 	leia(valorMovimento)
-   		 saldoFinal = saldo - valorMovimento
-   		 saldo=saldoFinal
+   	 	se(saldo < valorMovimento) {
+   	 		escreva("Impossível realizar esse débito. \n")
+   	 		}
+   	 	senao se(saldo >= valorMovimento) {
+   	 		saldoFinal = saldo - valorMovimento
+   			saldo=saldoFinal
+   	 		}
   	  } //Ju
 
    	 funcao creditoContaEstudantil() //Ju
    	 {
    	 	escreva("Valor movimento: R$ ")
-   		 leia(valorMovimento)
+   		leia(valorMovimento)
    	 	saldoFinal = saldo + valorMovimento
-   		 saldo=saldoFinal
+   		saldo=saldoFinal
    	 
   	  } //Ju
 	funcao debitoContaEmpresarial() 
@@ -320,18 +424,23 @@ funcao debitoContaEstudantil() //Ju
    	 
    	 	escreva("Valor movimento: R$ ")
    	 	leia(valorMovimento)
-   		 saldoFinal = saldo - valorMovimento
-   		 saldo=saldoFinal
-  	  } //Ju
+   	 	se(saldo < valorMovimento) {
+   	 		escreva("Impossível realizar esse débito. \n")
+   	 	}
+   	 	senao se (saldo >= valorMovimento) {
+   			saldoFinal = saldo - valorMovimento
+   		 	saldo=saldoFinal
+   	 	}
+  	  } 
 
    	 funcao creditoContaEmpresarial() 
    	 {
    	 	escreva("Valor movimento: R$ ")
-   		 leia(valorMovimento)
+   		leia(valorMovimento)
    	 	saldoFinal = saldo + valorMovimento
-   		 saldo=saldoFinal
+   		saldo=saldoFinal
    	 
-  	  } //Ju
+  	  } 
   	  
 	funcao movimentacaoCorrente (){ //maya
         	caracter movimento
@@ -372,75 +481,7 @@ funcao debitoContaEstudantil() //Ju
 
         	}
 		        }
-			
-  	   funcao movimentacaoPoupanca () { //viny - conta poupança
-  	   	
-        	caracter movimento
-        	inteiro diaAtual, diaAniversario
-        	para (inteiro x=1; x<=10; x++) {
-        		escreva("Movimentação: " + x + "\n")
-        		escreva("Saldo Atual: R$ ",saldo,"\n")
-        		escreva("Digite o dia de hoje ")
-        		leia(diaAtual)
-        		escreva("MOVIMENTO - D-debito ou C-Crédito: ")
-        		leia(movimento)
-        		se (movimento == 'D') {
-        			escreva("Valor movimento: R$ ")
-        			leia(valorMovimento)
 
-        			se( saldo <= 0 ou saldo < valorMovimento) {
-        				escreva("Operação não poderá ser válida, pois o saldo ficará negativo!\n")
-
-        			} senao se (saldo >=0) {
-        			saldoFinal = saldo-valorMovimento
-        			saldo = saldoFinal
-        			     escreva("Seu saldo agora é de: R$ ",saldoFinal,"\n\n")
-        				escreva("Movimentação realizada com sucesso!\n")	
-        			}
-        		} senao se (movimento == 'C') {
-        			escreva("Valor movimento: R$ ")
-        			leia(valorMovimento)
-        			saldoFinal = saldo + valorMovimento
-        			saldo=saldoFinal
-        			escreva("Digite qual dia você faz aniversário: ")
-        			leia(diaAniversario)
-        			se (diaAtual == diaAniversario) {
-        				escreva("Parabéns! Você ganhou 5% com base no seu saldo!")
-        				saldoFinal = (saldo * 0.05) + saldo
-        				escreva("Seu saldo agora e de: R$ ",saldoFinal,"\n\n")
-        				saldo = saldoFinal
-        				escreva("Movimentação realizada com sucesso!\n")
-        			} senao se ( diaAtual != diaAniversario) {
-        				escreva("Seu saldo agora é de: R$ ",saldoFinal,"\n\n")
-        				escreva("Movimentação realizada com sucesso!\n")
-
-        			}
-        		} senao {
-        			escreva("Não foi possível identificar sua afirmação. Tente novamente \n ")
-        		}
-        		
-        		escreva("Obrigado por utilizar nossos serviços!\n")
-			
-        		escreva("Continuar fazendo movimentações S/N: ")
-        		leia(continuar)
-
-        		se (continuar =='S') {
-        			escreva("Ok, vamos tentar novamente! \n")
-        		} senao se (continuar =='N') {
-        			escreva("Obrigade por utilizar nossos serviços! Volte sempre! \n")
-        			pare
-        		}
-  
-        		senao {
-        			escreva("Não foi possível identificar sua afirmação \n")
-        		} faca {
-        			escreva("O número de tentativas foi excedido!")
-        			pare
-        		} enquanto (x > 10)
-
-
-        	}
-        }
   funcao chequeEspecial () {	//maya
 		inteiro opcaoChequeE
 		faca{
@@ -474,7 +515,7 @@ funcao debitoContaEstudantil() //Ju
    				escreva("Não foi possível solicitar o empréstimo \n")
    			} 
    				
-   			} senao se (auxEmprestimoSimNaoEmpresarial == 'N') {
+   		} senao se (auxEmprestimoSimNaoEmpresarial == 'N') {
    				
 			saldo = saldo + 0.00
    			
@@ -523,12 +564,13 @@ funcao debitoContaEstudantil() //Ju
 }
 
 
+
 /* $$$ Portugol Studio $$$ 
  * 
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 10846; 
+ * @POSICAO-CURSOR = 14666; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
